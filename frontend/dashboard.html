@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Biometric Identity System</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <nav class="navbar">
+            <div class="brand">BioIdentity System</div>
+            <div class="nav-links">
+                <span class="user-info" id="userInfo">Loading...</span>
+                <a href="dashboard.html">Dashboard</a>
+                <a href="javascript:void(0)" onclick="registerBiometric()">Add Biometric</a>
+                <a href="javascript:void(0)" onclick="logout()">Logout</a>
+            </div>
+        </nav>
+
+        <div id="message"></div>
+
+        <div class="grid-2 mb-20">
+            <div class="card">
+                <div class="flex-between mb-10">
+                    <h2>Profile</h2>
+                    <span id="roleBadge"></span>
+                </div>
+                <div id="profileInfo">
+                    <div class="loading"></div>
+                </div>
+            </div>
+            <div class="card">
+                <div class="flex-between mb-10">
+                    <h2>Attendance</h2>
+                    <span class="badge badge-active" id="todayStatus">Today: --</span>
+                </div>
+                <div id="attendanceActions">
+                    <button onclick="checkIn()" class="btn btn-success" style="width:100%" id="checkInBtn">Check In Now</button>
+                </div>
+                <div id="attendanceList" style="margin-top:20px">
+                    <div class="loading"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <div class="flex-between mb-10">
+                <h2>Registered Biometrics</h2>
+                <button onclick="registerBiometric()" class="btn btn-secondary">+ Add</button>
+            </div>
+            <div id="biometricList">
+                <div class="loading"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="biometricModal" class="modal-overlay hidden" onclick="if(event.target===this)closeBiometricModal()">
+        <div class="modal">
+            <h2>Register Biometric</h2>
+            <div id="biometricModalBody"></div>
+            <div class="modal-actions">
+                <button onclick="closeBiometricModal()" class="btn btn-secondary">Cancel</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/face.js"></script>
+</body>
+</html>

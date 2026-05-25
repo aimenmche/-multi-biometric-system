@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Biometric Identity System</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <nav class="navbar">
+            <div class="brand">BioIdentity Admin</div>
+            <div class="nav-links">
+                <span class="user-info" id="userInfo">Loading...</span>
+                <a href="dashboard.html">Dashboard</a>
+                <a href="admin.html">Admin</a>
+                <a href="javascript:void(0)" onclick="logout()">Logout</a>
+            </div>
+        </nav>
+
+        <div id="message"></div>
+
+        <div class="grid-3 mb-20" id="statCards">
+            <div class="stat-card">
+                <div class="stat-value" id="totalUsers">-</div>
+                <div class="stat-label">Total Users</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="todayAttendance">-</div>
+                <div class="stat-label">Today's Attendance</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="biometricCount">-</div>
+                <div class="stat-label">Biometrics Registered</div>
+            </div>
+        </div>
+
+        <div class="tab-container">
+            <button class="tab-btn active" onclick="switchAdminTab('users', this)">Users</button>
+            <button class="tab-btn" onclick="switchAdminTab('attendance', this)">Attendance</button>
+            <button class="tab-btn" onclick="switchAdminTab('actions', this)">Admin Log</button>
+            <button class="tab-btn" onclick="switchAdminTab('settings', this)">Settings</button>
+        </div>
+
+        <div id="admin-users" class="tab-content active">
+            <div class="card">
+                <div class="flex-between mb-20">
+                    <h2>User Management</h2>
+                </div>
+                <div class="search-box">
+                    <input type="text" id="userSearch" placeholder="Search users by name, username, or email..." oninput="searchUsers()">
+                    <button onclick="loadUsers()" class="btn btn-primary">Search</button>
+                </div>
+                <div id="usersTable">
+                    <div class="loading"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="admin-attendance" class="tab-content">
+            <div class="card">
+                <div class="flex-between mb-20">
+                    <h2>Attendance Records</h2>
+                </div>
+                <div id="attendanceTable">
+                    <div class="loading"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="admin-actions" class="tab-content">
+            <div class="card">
+                <div class="flex-between mb-20">
+                    <h2>Admin Action Log</h2>
+                </div>
+                <div id="actionsTable">
+                    <div class="loading"></div>
+                </div>
+            </div>
+        </div>
+
+        <div id="admin-settings" class="tab-content">
+            <div class="card">
+                <h2>System Settings</h2>
+                <p style="color:#888;margin-bottom:20px">Configure the biometric identity verification system.</p>
+                <div class="form-group">
+                    <label>Face Recognition Threshold</label>
+                    <input type="range" id="faceThreshold" min="0.1" max="0.8" step="0.05" value="0.4" style="width:100%">
+                    <span style="color:#888;font-size:0.85rem">Current: <span id="faceThresholdVal">0.40</span></span>
+                </div>
+                <div class="form-group">
+                    <label>Fingerprint Match Threshold</label>
+                    <input type="range" id="fpThreshold" min="0.5" max="0.95" step="0.05" value="0.75" style="width:100%">
+                    <span style="color:#888;font-size:0.85rem">Current: <span id="fpThresholdVal">0.75</span></span>
+                </div>
+                <button onclick="saveSettings()" class="btn btn-primary">Save Settings</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="userModal" class="modal-overlay hidden" onclick="if(event.target===this)closeUserModal()">
+        <div class="modal">
+            <h2 id="userModalTitle">User Details</h2>
+            <div id="userModalBody"></div>
+            <div class="modal-actions">
+                <button onclick="closeUserModal()" class="btn btn-secondary">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-Biometric Identity Verification System</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-card">
+            <h1>Biometric Identity</h1>
+            <p class="subtitle">Multi-factor authentication system with face and fingerprint recognition</p>
+
+            <div id="message"></div>
+
+            <div class="biometric-options">
+                <div class="biometric-option selected" onclick="selectLoginOption('password')">
+                    <div class="icon">🔑</div>
+                    <div class="label">Password</div>
+                </div>
+                <div class="biometric-option" onclick="selectLoginOption('face')">
+                    <div class="icon">👤</div>
+                    <div class="label">Face Login</div>
+                </div>
+                <div class="biometric-option" onclick="selectLoginOption('fingerprint')">
+                    <div class="icon">🖐️</div>
+                    <div class="label">Fingerprint</div>
+                </div>
+            </div>
+
+            <div id="password-login" class="tab-content active">
+                <form id="loginForm" onsubmit="handlePasswordLogin(event)">
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" id="username" placeholder="Enter your username" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" placeholder="Enter your password" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width:100%">Sign In</button>
+                </form>
+            </div>
+
+            <div id="face-login" class="tab-content">
+                <p style="color:#aaa;margin-bottom:15px;font-size:0.9rem">Capture your face to authenticate. Use a webcam or upload an image.</p>
+                <div class="camera-container">
+                    <video id="faceVideo" autoplay muted playsinline></video>
+                    <canvas id="faceCanvas"></canvas>
+                </div>
+                <div style="display:flex;gap:10px;margin-top:15px">
+                    <button onclick="startCamera()" class="btn btn-secondary" style="flex:1">📷 Start Camera</button>
+                    <button onclick="captureFace()" class="btn btn-primary" style="flex:1" disabled id="captureBtn">Capture</button>
+                </div>
+                <input type="file" id="faceUpload" accept="image/*" style="display:none" onchange="handleFaceUpload(event)">
+                <button onclick="document.getElementById('faceUpload').click()" class="btn btn-secondary" style="width:100%;margin-top:10px">📁 Upload Face Image</button>
+                <button onclick="loginWithFace()" class="btn btn-success" style="width:100%;margin-top:15px" id="faceLoginBtn" disabled>Login with Face</button>
+            </div>
+
+            <div id="fingerprint-login" class="tab-content">
+                <p style="color:#aaa;margin-bottom:15px;font-size:0.9rem">Enter your fingerprint code (simulated) or use the fingerprint scanner.</p>
+                <div class="form-group">
+                    <label for="fingerprintCode">Fingerprint Code</label>
+                    <input type="text" id="fingerprintCode" placeholder="Enter your fingerprint code">
+                </div>
+                <button onclick="loginWithFingerprint()" class="btn btn-primary" style="width:100%">🔍 Verify Fingerprint</button>
+            </div>
+
+            <div class="auth-footer">
+                Don't have an account? <a href="register.html">Register here</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+</body>
+</html>

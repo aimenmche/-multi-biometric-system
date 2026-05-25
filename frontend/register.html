@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Biometric Identity System</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="auth-container">
+        <div class="auth-card">
+            <h1>Create Account</h1>
+            <p class="subtitle">Register for the biometric identity system</p>
+
+            <div id="message"></div>
+
+            <form id="registerForm" onsubmit="handleRegister(event)">
+                <div class="form-group">
+                    <label for="fullName">Full Name</label>
+                    <input type="text" id="fullName" placeholder="Enter your full name" required>
+                </div>
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" placeholder="Choose a username" required>
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" placeholder="Enter your email" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="Create a password (min 6 chars)" required>
+                </div>
+                <div class="form-group">
+                    <label for="role">Role</label>
+                    <select id="role">
+                        <option value="student">Student</option>
+                        <option value="admin">Admin</option>
+                    </select>
+                </div>
+
+                <h3 style="margin-top:25px;margin-bottom:15px;color:#ccc">Optional: Register Biometrics</h3>
+
+                <div class="biometric-options">
+                    <div class="biometric-option" id="reg-face-option" onclick="toggleRegBiometric('face')">
+                        <div class="icon">👤</div>
+                        <div class="label">Face</div>
+                    </div>
+                    <div class="biometric-option" id="reg-fp-option" onclick="toggleRegBiometric('fingerprint')">
+                        <div class="icon">🖐️</div>
+                        <div class="label">Fingerprint</div>
+                    </div>
+                </div>
+
+                <div id="reg-face-section" class="hidden">
+                    <p style="color:#aaa;margin-bottom:10px;font-size:0.9rem">Capture your face for biometric registration.</p>
+                    <div class="camera-container">
+                        <video id="regFaceVideo" autoplay muted playsinline></video>
+                        <canvas id="regFaceCanvas"></canvas>
+                    </div>
+                    <div style="display:flex;gap:10px;margin-top:10px">
+                        <button type="button" onclick="startRegCamera()" class="btn btn-secondary" style="flex:1">📷 Start Camera</button>
+                        <button type="button" onclick="captureRegFace()" class="btn btn-primary" style="flex:1" id="regCaptureBtn" disabled>Capture</button>
+                    </div>
+                    <input type="file" id="regFaceUpload" accept="image/*" style="display:none" onchange="handleRegFaceUpload(event)">
+                    <button type="button" onclick="document.getElementById('regFaceUpload').click()" class="btn btn-secondary" style="width:100%;margin-top:10px">📁 Upload Face Image</button>
+                </div>
+
+                <div id="reg-fingerprint-section" class="hidden">
+                    <p style="color:#aaa;margin-bottom:10px;font-size:0.9rem">Enter a fingerprint code to simulate fingerprint registration.</p>
+                    <div class="form-group">
+                        <input type="text" id="regFingerprintCode" placeholder="Enter fingerprint code">
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary" style="width:100%;margin-top:20px">Create Account</button>
+            </form>
+
+            <div class="auth-footer">
+                Already have an account? <a href="index.html">Sign in</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/auth.js"></script>
+</body>
+</html>
