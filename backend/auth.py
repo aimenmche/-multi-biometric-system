@@ -2,8 +2,8 @@ import os
 from datetime import datetime, timedelta
 from typing import Optional
 
+import bcrypt
 from jose import JWTError, jwt
-from passlib.context import CryptContext
 from fastapi import Depends, HTTPException, status
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from sqlalchemy.orm import Session
@@ -15,16 +15,22 @@ SECRET_KEY = os.getenv("SECRET_KEY", "super-secret-key-change-in-production-mast
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_DAYS = 7
 
-pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 security = HTTPBearer()
 
 
 def hash_password(password: str) -> str:
-    return pwd_context.hash(password)
+    if isinstance(password, str):
+        password = password.encode("utf-8")
+    salt = bcrypt.gensalt()
+    return bcrypt.hashpw(password, salt).decode("utf-8")
 
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:
-    return pwd_context.verify(plain_password, hashed_password)
+    if isinstance(plain_password, str):
+        plain_password = plain_password.encode("utf-8")
+    if isinstance(hashed_password, str):
+        hashed_password = hashed_password.encode("utf-8")
+    return bcrypt.checkpw(plain_password, hashed_password)
 
 
 def create_access_token(data: dict, expires_delta: Optional[timedelta] = None) -> str:
